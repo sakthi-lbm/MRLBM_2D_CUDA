@@ -1,0 +1,10 @@
+*.o
+*.json
+*.lastcodeanalysissucceeded
+*.log
+*.obj
+*.pdb
+*.codeanalysisast
+*.deps
+*.cache
+*.bin
