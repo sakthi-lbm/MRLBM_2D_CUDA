@@ -1,43 +1,38 @@
 #ifndef VAR_H
 #define VAR_H
 
-#include <cstddef> // recommended
+#include<cuda_runtime.h>
+#include <device_launch_parameters.h>
+#include <chrono>
 
-// Define __host__ and __device__ safely for non-CUDA builds
-#ifndef __CUDACC__
-#define __host__
-#define __device__
-#endif
+typedef double dfloat;
+typedef std::chrono::high_resolution_clock::time_point timestep;
 
-typedef float dfloat;
+// clang-format off
+#define STR_IMPL(x) #x
+#define STR(x) STR_IMPL(x)
 
-template <typename T>
-__host__ __device__ inline constexpr dfloat toDFloat(const T value)
-{
-    return static_cast<dfloat>(value);
-}
-template <typename T>
-__host__ __device__ inline constexpr int toInt(const T value)
-{
-    return static_cast<int>(value);
-}
+// select a Case:
+//1. ldc
 
-template <typename T>
-__host__ __device__ inline constexpr size_t toSize_t(const T value)
-{
-    return static_cast<size_t>(value);
-}
+#define BC_PROBLEM ldc
+#define REG_ORDER second_order
 
-template <typename T>
-__host__ __device__ inline constexpr float toFloat(const T value)
-{
-    return static_cast<float>(value);
-}
+#define CASE_DIRECTORY cases
+#define COLREC_DIRECTORY colrec
+
+#define CASE_CONSTANTS STR(CASE_DIRECTORY/BC_PROBLEM/constants.h)
+#define CASE_OUTPUTS STR(CASE_DIRECTORY/BC_PROBLEM/outputs.h)
+#define COLREC STR(COLREC_DIRECTORY/REG_ORDER/collision_and_reconstruction.cuh)
+#define CASE_BOUNDARY STR(CASE_DIRECTORY/BC_PROBLEM/boundaries.cuh)
+
 
 #define LATTICE_PROPERTIES "solver/latticeProperties.cuh"
-#define CONSTANTS "cases/ldc/constants.h"
 #include LATTICE_PROPERTIES
-#include CONSTANTS
+#include CASE_CONSTANTS
+#include CASE_OUTPUTS
+
+// clang-format on
 
 constexpr size_t MAX_THREADS_PER_BLOCK = 1024;
 constexpr dim3 findOptimalBlockDim(size_t maxShareMemBytes, size_t bytesPerThread)
@@ -69,9 +64,36 @@ constexpr dim3 findOptimalBlockDim(size_t maxShareMemBytes, size_t bytesPerThrea
     return dim3(bestDimX, bestDimY);
 }
 
+template <typename T>
+__host__ __device__ inline constexpr dfloat toDFloat(const T value)
+{
+    return static_cast<dfloat>(value);
+}
+template <typename T>
+__host__ __device__ inline constexpr int toInt(const T value)
+{
+    return static_cast<int>(value);
+}
 
-#include "index.h"
+template <typename T>
+__host__ __device__ inline constexpr size_t toSize_t(const T value)
+{
+    return static_cast<size_t>(value);
+}
+
+template <typename T>
+__host__ __device__ inline constexpr float toFloat(const T value)
+{
+    return static_cast<float>(value);
+}
+
 #include "definitions.h"
+#include "index.h"
 #include "globalStructs.h"
+#include "nodeTypeMap.h"
+#include "utils/cudaHelpers.cuh"
+#include "utils/file_utils.h"
+
+#include CASE_BOUNDARY
 
 #endif // VAR_H

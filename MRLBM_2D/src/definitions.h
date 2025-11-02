@@ -15,6 +15,7 @@ constexpr size_t SHARED_MEM_PER_THREAD = (Q - 1) * sizeof(dfloat);
 
 constexpr dim3 OPTIMAL_BLOCK = findOptimalBlockDim(MAX_SHARED_MEM_BYTES, SHARED_MEM_PER_THREAD);
 
+
 constexpr size_t BLOCK_THREAD_X = OPTIMAL_BLOCK.x;
 constexpr size_t BLOCK_THREAD_Y = OPTIMAL_BLOCK.y;
 
@@ -30,5 +31,8 @@ constexpr dim3 grid(GRID_BLOCK_X, GRID_BLOCK_Y);
 
 constexpr size_t NUM_LBM_NODES = TOTAL_NUMBER_OF_THREADS;
 constexpr size_t MEM_SIZE_LBM_NODES = NUM_LBM_NODES * sizeof(dfloat);
+
+constexpr size_t USED_SHARED_MEMORY = SHARED_MEM_PER_THREAD * THREADS_PER_BLOCK;
+constexpr size_t USED_GLOBAL_MEMORY = NUM_LBM_NODES * ((NUMBER_OF_MOMENTS * sizeof(dfloat)) + sizeof(unsigned int));
 
 #endif // DEFINITIONS_H

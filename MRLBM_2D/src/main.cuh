@@ -6,25 +6,25 @@
 // ---------------Host memory allocation----------------------
 inline void allocateHostMemory(nodeVar &h_fMom)
 {
-    cudaMallocHost(&h_fMom.nodeType, NUM_LBM_NODES * sizeof(unsigned int));
-    cudaMallocHost(&(h_fMom.rho), MEM_SIZE_LBM_NODES);
-    cudaMallocHost(&(h_fMom.ux), MEM_SIZE_LBM_NODES);
-    cudaMallocHost(&(h_fMom.uy), MEM_SIZE_LBM_NODES);
-    cudaMallocHost(&(h_fMom.mxx), MEM_SIZE_LBM_NODES);
-    cudaMallocHost(&(h_fMom.myy), MEM_SIZE_LBM_NODES);
-    cudaMallocHost(&(h_fMom.mxy), MEM_SIZE_LBM_NODES);
+    checkCudaErrors(cudaMallocHost(&h_fMom.nodeType, NUM_LBM_NODES * sizeof(unsigned int)));
+    checkCudaErrors(cudaMallocHost(&(h_fMom.rho), MEM_SIZE_LBM_NODES));
+    checkCudaErrors(cudaMallocHost(&(h_fMom.ux), MEM_SIZE_LBM_NODES));
+    checkCudaErrors(cudaMallocHost(&(h_fMom.uy), MEM_SIZE_LBM_NODES));
+    checkCudaErrors(cudaMallocHost(&(h_fMom.mxx), MEM_SIZE_LBM_NODES));
+    checkCudaErrors(cudaMallocHost(&(h_fMom.myy), MEM_SIZE_LBM_NODES));
+    checkCudaErrors(cudaMallocHost(&(h_fMom.mxy), MEM_SIZE_LBM_NODES));
 }
 
 //---------------- Device Memory allocation------------------------
 inline void allocateDeviceMemory(nodeVar &d_fMom)
 {
-    cudaMalloc(&d_fMom.nodeType, NUM_LBM_NODES * sizeof(unsigned int));
-    cudaMalloc(&(d_fMom.rho), MEM_SIZE_LBM_NODES);
-    cudaMalloc(&(d_fMom.ux), MEM_SIZE_LBM_NODES);
-    cudaMalloc(&(d_fMom.uy), MEM_SIZE_LBM_NODES);
-    cudaMalloc(&(d_fMom.mxx), MEM_SIZE_LBM_NODES);
-    cudaMalloc(&(d_fMom.myy), MEM_SIZE_LBM_NODES);
-    cudaMalloc(&(d_fMom.mxy), MEM_SIZE_LBM_NODES);
+    checkCudaErrors( cudaMalloc(&d_fMom.nodeType, NUM_LBM_NODES * sizeof(unsigned int)));
+    checkCudaErrors( cudaMalloc(&(d_fMom.rho), MEM_SIZE_LBM_NODES));
+    checkCudaErrors( cudaMalloc(&(d_fMom.ux), MEM_SIZE_LBM_NODES));
+    checkCudaErrors( cudaMalloc(&(d_fMom.uy), MEM_SIZE_LBM_NODES));
+    checkCudaErrors( cudaMalloc(&(d_fMom.mxx), MEM_SIZE_LBM_NODES));
+    checkCudaErrors( cudaMalloc(&(d_fMom.myy), MEM_SIZE_LBM_NODES));
+    checkCudaErrors( cudaMalloc(&(d_fMom.mxy), MEM_SIZE_LBM_NODES));
 }
 
 //-------------- Freeing host memory---------------------------
@@ -52,25 +52,25 @@ inline void freeDeviceMemory(nodeVar &d_fMom)
 }
 
 // ------------------------Copy host --> Device--------------------------------
-inline void copyMomentsHostToDevice(nodeVar &df_Mom, const nodeVar h_fMom)
+inline void copyMomentsHostToDevice(nodeVar &df_Mom, const nodeVar &h_fMom)
 {
-    cudaMemcpy(df_Mom.rho, h_fMom.rho, MEM_SIZE_LBM_NODES, cudaMemcpyHostToDevice);
-    cudaMemcpy(df_Mom.ux, h_fMom.ux, MEM_SIZE_LBM_NODES, cudaMemcpyHostToDevice);
-    cudaMemcpy(df_Mom.uy, h_fMom.uy, MEM_SIZE_LBM_NODES, cudaMemcpyHostToDevice);
-    cudaMemcpy(df_Mom.mxx, h_fMom.mxx, MEM_SIZE_LBM_NODES, cudaMemcpyHostToDevice);
-    cudaMemcpy(df_Mom.myy, h_fMom.myy, MEM_SIZE_LBM_NODES, cudaMemcpyHostToDevice);
-    cudaMemcpy(df_Mom.mxy, h_fMom.mxy, MEM_SIZE_LBM_NODES, cudaMemcpyHostToDevice);
+    checkCudaErrors(cudaMemcpy(df_Mom.rho, h_fMom.rho, MEM_SIZE_LBM_NODES, cudaMemcpyHostToDevice));
+    checkCudaErrors(cudaMemcpy(df_Mom.ux, h_fMom.ux, MEM_SIZE_LBM_NODES, cudaMemcpyHostToDevice));
+    checkCudaErrors(cudaMemcpy(df_Mom.uy, h_fMom.uy, MEM_SIZE_LBM_NODES, cudaMemcpyHostToDevice));
+    checkCudaErrors(cudaMemcpy(df_Mom.mxx, h_fMom.mxx, MEM_SIZE_LBM_NODES, cudaMemcpyHostToDevice));
+    checkCudaErrors(cudaMemcpy(df_Mom.myy, h_fMom.myy, MEM_SIZE_LBM_NODES, cudaMemcpyHostToDevice));
+    checkCudaErrors(cudaMemcpy(df_Mom.mxy, h_fMom.mxy, MEM_SIZE_LBM_NODES, cudaMemcpyHostToDevice));
 }
 
 // ------------------------Copy Device --> Host--------------------------------
 inline void copyMomentsDeviceToHost(nodeVar &h_fMom, const nodeVar &d_fMom)
 {
-    cudaMemcpy(h_fMom.rho, d_fMom.rho, MEM_SIZE_LBM_NODES, cudaMemcpyDeviceToHost);
-    cudaMemcpy(h_fMom.ux, d_fMom.ux, MEM_SIZE_LBM_NODES, cudaMemcpyDeviceToHost);
-    cudaMemcpy(h_fMom.uy, d_fMom.uy, MEM_SIZE_LBM_NODES, cudaMemcpyDeviceToHost);
-    cudaMemcpy(h_fMom.mxx, d_fMom.mxx, MEM_SIZE_LBM_NODES, cudaMemcpyDeviceToHost);
-    cudaMemcpy(h_fMom.myy, d_fMom.myy, MEM_SIZE_LBM_NODES, cudaMemcpyDeviceToHost);
-    cudaMemcpy(h_fMom.mxy, d_fMom.mxy, MEM_SIZE_LBM_NODES, cudaMemcpyDeviceToHost);
+    checkCudaErrors(cudaMemcpy(h_fMom.rho, d_fMom.rho, MEM_SIZE_LBM_NODES, cudaMemcpyDeviceToHost));
+    checkCudaErrors(cudaMemcpy(h_fMom.ux, d_fMom.ux, MEM_SIZE_LBM_NODES, cudaMemcpyDeviceToHost));
+    checkCudaErrors(cudaMemcpy(h_fMom.uy, d_fMom.uy, MEM_SIZE_LBM_NODES, cudaMemcpyDeviceToHost));
+    checkCudaErrors(cudaMemcpy(h_fMom.mxx, d_fMom.mxx, MEM_SIZE_LBM_NODES, cudaMemcpyDeviceToHost));
+    checkCudaErrors(cudaMemcpy(h_fMom.myy, d_fMom.myy, MEM_SIZE_LBM_NODES, cudaMemcpyDeviceToHost));
+    checkCudaErrors(cudaMemcpy(h_fMom.mxy, d_fMom.mxy, MEM_SIZE_LBM_NODES, cudaMemcpyDeviceToHost));
 }
 
 #endif // MAIN_CUH

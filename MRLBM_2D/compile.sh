@@ -23,7 +23,7 @@ nvcc -std=c++17 \
     -gencode arch=compute_${CompCap},code=sm_${CompCap} \
     -rdc=true -O3 --restrict \
     -Iinclude \
-    src/*.cu \
+    $(find src -name "*.cu") \
     -lcudadevrt -lcurand \
     -o ../${CASE}sim_${LT}_sm${CompCap}
 

@@ -3,9 +3,18 @@
 
 #include "var.h"
 
-__host__ __device__ inline int IDX(int x, int y)
+// __host__ __device__ inline int IDX(int x, int y)
+// {
+//     return x + (y * NX);
+// }
+
+__host__ __device__ size_t __forceinline__ IDX_BLOCK(
+    const int tx,
+    const int ty,
+    const int bx,
+    const int by)
 {
-    return x + (y * NX);
+    return tx + BLOCK_THREAD_X * (ty + BLOCK_THREAD_Y * (bx + GRID_BLOCK_X * by));
 }
 
 #endif // INDEX_H

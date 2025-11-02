@@ -5,6 +5,8 @@
 
 constexpr dfloat PI = 3.14159265358979323846;
 
+constexpr size_t NUMBER_OF_MOMENTS = 6;
+
 constexpr int Q = 9;
 constexpr dfloat W0 = 4.0 / 9.0;
 constexpr dfloat W1 = 1.0 / 9.0;
