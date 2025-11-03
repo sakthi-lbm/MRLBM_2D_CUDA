@@ -14,4 +14,12 @@ struct nodeVar
     dfloat *mxy;
 };
 
+struct haloData
+{
+    dfloat *X_WEST;
+    dfloat *X_EAST;
+    dfloat *Y_SOUTH;
+    dfloat *Y_NORTH;
+};
+
 #endif // GLOBAL_STRUCTS_H

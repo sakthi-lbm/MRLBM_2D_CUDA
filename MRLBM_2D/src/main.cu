@@ -4,7 +4,6 @@
 #include "main.cuh"
 #include "solver/initializeLBM.cuh"
 
-
 int main()
 {
     create_output_directory();
@@ -17,11 +16,14 @@ int main()
 
     nodeVar h_fMom;
     nodeVar d_fMom;
+    haloData fHalo_interface;
+    haloData gHalo_interface;
 
     allocateHostMemory(h_fMom);
     allocateDeviceMemory(d_fMom);
+    allocateHaloInterfaceMemory(fHalo_interface, gHalo_interface);
 
-    initialize_domain(d_fMom);
+    initialize_domain(d_fMom, gHalo_interface);
 
     copyMomentsDeviceToHost(h_fMom, d_fMom);
     checkCudaErrors(cudaMemcpy(h_fMom.nodeType, d_fMom.nodeType, NUM_LBM_NODES * sizeof(unsigned int), cudaMemcpyDeviceToHost));
@@ -29,7 +31,6 @@ int main()
     // Time loop
     for (int iter = 0; iter <= MAX_ITER; iter++)
     {
-        
     }
 
     calculate_mlups(sim_start_time, end_time, MAX_ITER, mlups);

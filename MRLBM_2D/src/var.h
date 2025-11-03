@@ -1,12 +1,35 @@
 #ifndef VAR_H
 #define VAR_H
 
-#include<cuda_runtime.h>
+#include <cuda_runtime.h>
 #include <device_launch_parameters.h>
 #include <chrono>
 
 typedef double dfloat;
 typedef std::chrono::high_resolution_clock::time_point timestep;
+
+template <typename T>
+__host__ __device__ inline constexpr dfloat toDFloat(const T value)
+{
+    return static_cast<dfloat>(value);
+}
+template <typename T>
+__host__ __device__ inline constexpr int toInt(const T value)
+{
+    return static_cast<int>(value);
+}
+
+template <typename T>
+__host__ __device__ inline constexpr size_t toSize_t(const T value)
+{
+    return static_cast<size_t>(value);
+}
+
+template <typename T>
+__host__ __device__ inline constexpr float toFloat(const T value)
+{
+    return static_cast<float>(value);
+}
 
 // clang-format off
 #define STR_IMPL(x) #x
@@ -20,10 +43,11 @@ typedef std::chrono::high_resolution_clock::time_point timestep;
 
 #define CASE_DIRECTORY cases
 #define COLREC_DIRECTORY colrec
+#define SOLVER_DIRECTORY solver
 
 #define CASE_CONSTANTS STR(CASE_DIRECTORY/BC_PROBLEM/constants.h)
 #define CASE_OUTPUTS STR(CASE_DIRECTORY/BC_PROBLEM/outputs.h)
-#define COLREC STR(COLREC_DIRECTORY/REG_ORDER/collision_and_reconstruction.cuh)
+#define RECONSTRUCT STR(SOLVER_DIRECTORY/COLREC_DIRECTORY/REG_ORDER/reconstruction.cuh)
 #define CASE_BOUNDARY STR(CASE_DIRECTORY/BC_PROBLEM/boundaries.cuh)
 
 
@@ -31,6 +55,7 @@ typedef std::chrono::high_resolution_clock::time_point timestep;
 #include LATTICE_PROPERTIES
 #include CASE_CONSTANTS
 #include CASE_OUTPUTS
+#include RECONSTRUCT
 
 // clang-format on
 
@@ -62,29 +87,6 @@ constexpr dim3 findOptimalBlockDim(size_t maxShareMemBytes, size_t bytesPerThrea
         }
     }
     return dim3(bestDimX, bestDimY);
-}
-
-template <typename T>
-__host__ __device__ inline constexpr dfloat toDFloat(const T value)
-{
-    return static_cast<dfloat>(value);
-}
-template <typename T>
-__host__ __device__ inline constexpr int toInt(const T value)
-{
-    return static_cast<int>(value);
-}
-
-template <typename T>
-__host__ __device__ inline constexpr size_t toSize_t(const T value)
-{
-    return static_cast<size_t>(value);
-}
-
-template <typename T>
-__host__ __device__ inline constexpr float toFloat(const T value)
-{
-    return static_cast<float>(value);
 }
 
 #include "definitions.h"

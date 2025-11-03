@@ -18,13 +18,26 @@ inline void allocateHostMemory(nodeVar &h_fMom)
 //---------------- Device Memory allocation------------------------
 inline void allocateDeviceMemory(nodeVar &d_fMom)
 {
-    checkCudaErrors( cudaMalloc(&d_fMom.nodeType, NUM_LBM_NODES * sizeof(unsigned int)));
-    checkCudaErrors( cudaMalloc(&(d_fMom.rho), MEM_SIZE_LBM_NODES));
-    checkCudaErrors( cudaMalloc(&(d_fMom.ux), MEM_SIZE_LBM_NODES));
-    checkCudaErrors( cudaMalloc(&(d_fMom.uy), MEM_SIZE_LBM_NODES));
-    checkCudaErrors( cudaMalloc(&(d_fMom.mxx), MEM_SIZE_LBM_NODES));
-    checkCudaErrors( cudaMalloc(&(d_fMom.myy), MEM_SIZE_LBM_NODES));
-    checkCudaErrors( cudaMalloc(&(d_fMom.mxy), MEM_SIZE_LBM_NODES));
+    checkCudaErrors(cudaMalloc(&d_fMom.nodeType, NUM_LBM_NODES * sizeof(unsigned int)));
+    checkCudaErrors(cudaMalloc(&(d_fMom.rho), MEM_SIZE_LBM_NODES));
+    checkCudaErrors(cudaMalloc(&(d_fMom.ux), MEM_SIZE_LBM_NODES));
+    checkCudaErrors(cudaMalloc(&(d_fMom.uy), MEM_SIZE_LBM_NODES));
+    checkCudaErrors(cudaMalloc(&(d_fMom.mxx), MEM_SIZE_LBM_NODES));
+    checkCudaErrors(cudaMalloc(&(d_fMom.myy), MEM_SIZE_LBM_NODES));
+    checkCudaErrors(cudaMalloc(&(d_fMom.mxy), MEM_SIZE_LBM_NODES));
+}
+
+inline void allocateHaloInterfaceMemory(haloData &fHalo_interface, haloData &gHalo_interface)
+{
+    checkCudaErrors(cudaMalloc(&fHalo_interface.X_WEST, NUM_HALO_FACE_X * QF * sizeof(dfloat)));
+    checkCudaErrors(cudaMalloc(&fHalo_interface.X_EAST, NUM_HALO_FACE_X * QF * sizeof(dfloat)));
+    checkCudaErrors(cudaMalloc(&fHalo_interface.Y_SOUTH, NUM_HALO_FACE_Y * QF * sizeof(dfloat)));
+    checkCudaErrors(cudaMalloc(&fHalo_interface.Y_NORTH, NUM_HALO_FACE_Y * QF * sizeof(dfloat)));
+
+    checkCudaErrors(cudaMalloc(&gHalo_interface.X_WEST, NUM_HALO_FACE_X * QF * sizeof(dfloat)));
+    checkCudaErrors(cudaMalloc(&gHalo_interface.X_EAST, NUM_HALO_FACE_X * QF * sizeof(dfloat)));
+    checkCudaErrors(cudaMalloc(&gHalo_interface.Y_SOUTH, NUM_HALO_FACE_Y * QF * sizeof(dfloat)));
+    checkCudaErrors(cudaMalloc(&gHalo_interface.Y_NORTH, NUM_HALO_FACE_Y * QF * sizeof(dfloat)));
 }
 
 //-------------- Freeing host memory---------------------------
