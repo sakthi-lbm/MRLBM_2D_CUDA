@@ -16,7 +16,7 @@ echo "Building for Compute Capability sm_${CompCap}, Case: ${CASE}, Lattice: ${L
 
 # Cleanup old binaries and outputs safely
 rm -f ../*sim_${LT}_sm${CompCap} 2>/dev/null
-rm -rf ../CYLINDER/${CASE}/ 2>/dev/null
+rm -rf ../LDC/${CASE}/ 2>/dev/null
 
 # Compile all .cu files inside src/
 nvcc -std=c++17 \

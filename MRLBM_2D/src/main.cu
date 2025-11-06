@@ -27,10 +27,27 @@ int main()
 
     copyMomentsDeviceToHost(h_fMom, d_fMom);
     checkCudaErrors(cudaMemcpy(h_fMom.nodeType, d_fMom.nodeType, NUM_LBM_NODES * sizeof(unsigned int), cudaMemcpyDeviceToHost));
+    copyHaloInterfaces(fHalo_interface, gHalo_interface);
+
+    write_grid();
+    write_solution(h_fMom, 1111);
 
     // Time loop
-    for (int iter = 0; iter <= MAX_ITER; iter++)
+    for (int iter = 0; iter < MAX_ITER; iter++)
     {
+        MomCollisionStreaming<<<grid, block>>>(d_fMom, fHalo_interface, gHalo_interface);
+        checkKernelExecution();
+
+        checkCudaErrors(cudaDeviceSynchronize());
+        swapHaloInterfaces(fHalo_interface, gHalo_interface);
+
+        if (iter % MACR_SAVE == 0)
+        {
+            copyMomentsDeviceToHost(h_fMom, d_fMom);
+            write_solution(h_fMom, iter);
+
+            printf("\n---------------------- (%d/%d) %.2f%% ----------------------\n", iter, MAX_ITER, toFloat(iter) / toFloat(MAX_ITER) * 100.0f);
+        }
     }
 
     calculate_mlups(sim_start_time, end_time, MAX_ITER, mlups);

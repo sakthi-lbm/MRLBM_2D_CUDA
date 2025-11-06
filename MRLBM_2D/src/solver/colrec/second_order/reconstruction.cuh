@@ -3,6 +3,8 @@
 
 #include "../../../var.h"
 
+
+
 __device__ inline void pop_reconstruction(const dfloat rhoVar, const dfloat uxVar, const dfloat uyVar, const dfloat mxxVar, const dfloat myyVar, const dfloat mxyVar, dfloat *pop)
 {
     // for (size_t i = 0; i < Q; i++)
