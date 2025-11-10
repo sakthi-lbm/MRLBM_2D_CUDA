@@ -1,7 +1,14 @@
 #!/bin/bash
 
 LT="D2Q9"
-CASE=${1:-ldc}    # use 'ldc' as default if not given
+    # use 'ldc' as default if not given
+
+if [ $# -lt 1 ]; then
+    echo "❌ Error: No simulation ID provided."
+    echo "Usage: bash compile.sh <SIM_ID>"
+    exit 1
+fi
+ID_SIM="$1"
 
 # Detect GPU compute capability if not manually set
 if [ -z "$CompCap" ]; then
@@ -12,21 +19,22 @@ if [ -z "$CompCap" ]; then
     fi
 fi
 
-echo "Building for Compute Capability sm_${CompCap}, Case: ${CASE}, Lattice: ${LT}"
+echo "Building for Compute Capability sm_${CompCap}, ID_SIM: ${ID_SIM}, Lattice: ${LT}"
 
 # Cleanup old binaries and outputs safely
 rm -f ../*sim_${LT}_sm${CompCap} 2>/dev/null
-rm -rf ../LDC/${CASE}/ 2>/dev/null
+rm -rf ../LDC/${ID_SIM}/ 2>/dev/null
 
 # Compile all .cu files inside src/
 nvcc -std=c++17 \
     -gencode arch=compute_${CompCap},code=sm_${CompCap} \
     -rdc=true -O3 --restrict \
     -Iinclude \
+    -D ID_SIM=\"$ID_SIM\" \
     $(find src -name "*.cu") \
     -lcudadevrt -lcurand \
-    -o ../${CASE}sim_${LT}_sm${CompCap}
+    -o ../${ID_SIM}sim_${LT}_sm${CompCap}
 
 # Run the simulation
 cd ../
-./${CASE}sim_${LT}_sm${CompCap}
+./${ID_SIM}sim_${LT}_sm${CompCap}

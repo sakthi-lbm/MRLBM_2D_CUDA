@@ -10,6 +10,8 @@
 typedef double dfloat;
 typedef std::chrono::high_resolution_clock::time_point timestep;
 
+#define GPU_INDEX  0
+
 template <typename T>
 __host__ __device__ inline constexpr dfloat toDFloat(const T value)
 {

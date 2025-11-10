@@ -50,7 +50,7 @@ __host__ __device__ inline void swapPointers(dfloat *&pt1, dfloat *&pt2)
     pt2 = temp;
 }
 
-inline void swapHaloInterfaces(haloData fHalo, haloData gHalo)
+inline void swapHaloInterfaces(haloData &fHalo, haloData &gHalo)
 {
     swapPointers(fHalo.X_WEST, gHalo.X_WEST);
     swapPointers(fHalo.X_EAST, gHalo.X_EAST);
@@ -88,6 +88,18 @@ inline void freeDeviceMemory(nodeVar &d_fMom)
     cudaFree(d_fMom.mxx);
     cudaFree(d_fMom.myy);
     cudaFree(d_fMom.mxy);
+}
+
+inline void freeHaloInterfaceMemory(haloData &fHalo_interface, haloData &gHalo_interface)
+{
+    cudaFree(fHalo_interface.X_WEST);
+    cudaFree(fHalo_interface.X_EAST);
+    cudaFree(fHalo_interface.Y_SOUTH);
+    cudaFree(fHalo_interface.Y_NORTH);
+    cudaFree(gHalo_interface.X_WEST);
+    cudaFree(gHalo_interface.X_EAST);
+    cudaFree(gHalo_interface.Y_SOUTH);
+    cudaFree(gHalo_interface.Y_NORTH);
 }
 
 // ------------------------Copy host --> Device--------------------------------

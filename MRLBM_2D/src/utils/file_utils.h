@@ -75,9 +75,9 @@ inline std::string getSimInfoString()
     out << std::setw(labelWidth) << "Num of Blocks in X" << " : " << GRID_BLOCK_X << "\n";
     out << std::setw(labelWidth) << "Num of Blocks in X" << " : " << GRID_BLOCK_Y << "\n";
     out << std::setw(labelWidth) << "Total threads per block" << " : " << THREADS_PER_BLOCK << "\n";
-    out << std::setw(labelWidth) << "Available Shared Memory (kb)" << " : " << MAX_SHARED_MEM_BYTES/BYTES_PER_KB << "\n";
-    out << std::setw(labelWidth) << "Shared Memory used (kb)" << " : " << USED_SHARED_MEMORY/BYTES_PER_KB << "\n";
-    out << std::setw(labelWidth) << "Global Memory used (kb)" << " : " << USED_GLOBAL_MEMORY/BYTES_PER_KB << "\n";
+    out << std::setw(labelWidth) << "Available Shared Memory (kb)" << " : " << MAX_SHARED_MEM_BYTES / BYTES_PER_KB << "\n";
+    out << std::setw(labelWidth) << "Shared Memory used (kb)" << " : " << USED_SHARED_MEMORY / BYTES_PER_KB << "\n";
+    out << std::setw(labelWidth) << "Global Memory used (kb)" << " : " << USED_GLOBAL_MEMORY / BYTES_PER_KB << "\n";
     out << "==========================================================================\n";
 
     return out.str();
@@ -115,11 +115,30 @@ inline void calculate_mlups(timestep &tstart, timestep &tend, int steps, dfloat 
     tend = std::chrono::high_resolution_clock::now();
     double step_time = std::chrono::duration<double>(tend - tstart).count();
     if (step_time > 0.0)
-        mlups = (NUM_LBM_NODES * steps / 1e6) / step_time;
+        mlups = (static_cast<double>(NUM_LBM_NODES) * steps / 1e6) / step_time;
     else
         mlups = 0.0;
 
     tstart = std::chrono::high_resolution_clock::now();
+}
+
+inline void gpu_properties()
+{
+    int device_count = 0;
+    cudaGetDeviceCount(&device_count);
+    std::cout << "Number of CUDA devices: " << device_count << std::endl;
+
+    for (int i = 0; i < device_count; i++)
+    {
+        cudaDeviceProp prop;
+        cudaGetDeviceProperties(&prop, i);
+        std::cout << "Device " << i << ": " << prop.name << std::endl;
+        std::cout << "  Total Global Memory: " << prop.totalGlobalMem / (1024 * 1024) << " MB" << std::endl;
+        std::cout << "  Compute Capability: " << prop.major << "." << prop.minor << std::endl;
+        std::cout << "  MultiProcessor Count: " << prop.multiProcessorCount << std::endl;
+        std::cout << "  Max Threads per Block: " << prop.maxThreadsPerBlock << std::endl;
+        std::cout << std::endl;
+    }
 }
 
 #endif

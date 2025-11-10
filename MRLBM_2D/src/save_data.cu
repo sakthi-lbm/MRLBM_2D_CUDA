@@ -134,7 +134,7 @@ void write_solution(nodeVar h_fMom, size_t iter)
         {
             for (size_t x = 0; x < NX; x++)
             {
-                float val = RHO_0 + h_fMom.rho[IDX(x, y)];
+                float val = RHO_0 + h_fMom.rho[IDX_BLOCK(x % BLOCK_THREAD_X, y % BLOCK_THREAD_Y, x / BLOCK_THREAD_X, y / BLOCK_THREAD_Y)];
                 datafile.write(reinterpret_cast<const char *>(&val), sizeof(float));
             }
         }
@@ -143,7 +143,7 @@ void write_solution(nodeVar h_fMom, size_t iter)
         {
             for (size_t x = 0; x < NX; x++)
             {
-                float val = h_fMom.ux[IDX(x, y)];
+                float val = h_fMom.ux[IDX_BLOCK(x % BLOCK_THREAD_X, y % BLOCK_THREAD_Y, x / BLOCK_THREAD_X, y / BLOCK_THREAD_Y)];
                 datafile.write(reinterpret_cast<const char *>(&val), sizeof(float));
             }
         }
@@ -152,7 +152,7 @@ void write_solution(nodeVar h_fMom, size_t iter)
         {
             for (size_t x = 0; x < NX; x++)
             {
-                float val = h_fMom.uy[IDX(x, y)];
+                float val = h_fMom.uy[IDX_BLOCK(x % BLOCK_THREAD_X, y % BLOCK_THREAD_Y, x / BLOCK_THREAD_X, y / BLOCK_THREAD_Y)];
                 datafile.write(reinterpret_cast<const char *>(&val), sizeof(float));
             }
         }

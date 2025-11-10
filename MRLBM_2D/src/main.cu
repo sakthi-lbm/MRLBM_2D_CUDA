@@ -6,11 +6,13 @@
 
 int main()
 {
+    gpu_properties();
     create_output_directory();
     writeSimInfo();
 
+    checkCudaErrors(cudaSetDevice(GPU_INDEX));
+
     timestep sim_start_time = std::chrono::high_resolution_clock::now();
-    timestep start_time = std::chrono::high_resolution_clock::now();
     timestep end_time;
     dfloat mlups;
 
@@ -30,9 +32,9 @@ int main()
     copyHaloInterfaces(fHalo_interface, gHalo_interface);
 
     write_grid();
-    write_solution(h_fMom, 1111);
 
     // Time loop
+    timestep start_time = std::chrono::high_resolution_clock::now();
     for (int iter = 0; iter < MAX_ITER; iter++)
     {
         MomCollisionStreaming<<<grid, block>>>(d_fMom, fHalo_interface, gHalo_interface);
@@ -55,6 +57,7 @@ int main()
 
     freeHostMemory(h_fMom);
     freeDeviceMemory(d_fMom);
+    freeHaloInterfaceMemory(fHalo_interface, gHalo_interface);
 
     return 0;
 }
