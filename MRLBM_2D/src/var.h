@@ -7,7 +7,7 @@
 #include <device_launch_parameters.h>
 #include <chrono>
 
-typedef double dfloat;
+typedef float dfloat;
 typedef std::chrono::high_resolution_clock::time_point timestep;
 
 #define GPU_INDEX  0

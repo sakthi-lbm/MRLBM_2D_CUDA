@@ -3,7 +3,7 @@
 
 #include "../../var.h"
 
-constexpr int N = 64;
+constexpr int N = 128;
 constexpr int NX = N;
 constexpr int NY = N;
 

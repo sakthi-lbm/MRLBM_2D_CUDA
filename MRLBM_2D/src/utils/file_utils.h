@@ -67,13 +67,13 @@ inline std::string getSimInfoString()
     out << std::setw(labelWidth) << "Viscosity" << " : " << VISC << "\n";
     out << std::setw(labelWidth) << "Tau" << " : " << TAU << "\n";
     out << std::setw(labelWidth) << "Omega" << " : " << OMEGA << "\n";
-    // out << std::setw(labelWidth) << "Macr_save" << " : " << MACR_SAVE << "\n";
+    out << std::setw(labelWidth) << "Macr_save" << " : " << MACR_SAVE << "\n";
     out << std::setw(labelWidth) << "Nsteps" << " : " << MAX_ITER << "\n";
     // out << std::setw(labelWidth) << "MLUPS" << " : " << MLUPS << "\n";
     out << "\n";
     out << "----------------------------- CUDA Parameters -----------------------------\n";
     out << std::setw(labelWidth) << "Num of Blocks in X" << " : " << GRID_BLOCK_X << "\n";
-    out << std::setw(labelWidth) << "Num of Blocks in X" << " : " << GRID_BLOCK_Y << "\n";
+    out << std::setw(labelWidth) << "Num of Blocks in Y" << " : " << GRID_BLOCK_Y << "\n";
     out << std::setw(labelWidth) << "Total threads per block" << " : " << THREADS_PER_BLOCK << "\n";
     out << std::setw(labelWidth) << "Available Shared Memory (kb)" << " : " << MAX_SHARED_MEM_BYTES / BYTES_PER_KB << "\n";
     out << std::setw(labelWidth) << "Shared Memory used (kb)" << " : " << USED_SHARED_MEMORY / BYTES_PER_KB << "\n";
