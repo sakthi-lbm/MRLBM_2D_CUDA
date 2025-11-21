@@ -6,8 +6,10 @@
 #define ID_SIM "000"
 #endif
 
-constexpr int MAX_ITER = 100000;
+constexpr int MAX_ITER = 200000;
 constexpr int MACR_SAVE = 10000;
+
+constexpr bool POST_PROCESS  = true;
 
 
 

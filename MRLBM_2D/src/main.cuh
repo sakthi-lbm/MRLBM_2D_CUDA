@@ -4,6 +4,7 @@
 #include "var.h"
 #include "solver/colrec/second_order/collision_streaming.cuh"
 #include "save_data.cuh"
+#include "postprocess.cuh"
 
 // ---------------Host memory allocation----------------------
 inline void allocateHostMemory(nodeVar &h_fMom)

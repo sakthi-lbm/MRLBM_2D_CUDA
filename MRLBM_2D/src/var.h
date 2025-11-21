@@ -53,6 +53,7 @@ __host__ __device__ inline constexpr float toFloat(const T value)
 #define CASE_OUTPUTS STR(CASE_DIRECTORY/BC_PROBLEM/outputs.h)
 #define RECONSTRUCT STR(SOLVER_DIRECTORY/COLREC_DIRECTORY/REG_ORDER/reconstruction.cuh)
 #define CASE_BOUNDARY STR(CASE_DIRECTORY/BC_PROBLEM/boundaries.cuh)
+#define CASE_POST STR(CASE_DIRECTORY/BC_PROBLEM/post_case.cuh)
 
 
 #define LATTICE_PROPERTIES "solver/latticeProperties.cuh"
@@ -101,5 +102,6 @@ constexpr dim3 findOptimalBlockDim(size_t maxShareMemBytes, size_t bytesPerThrea
 #include "utils/file_utils.h"
 
 #include CASE_BOUNDARY
+#include CASE_POST
 
 #endif // VAR_H

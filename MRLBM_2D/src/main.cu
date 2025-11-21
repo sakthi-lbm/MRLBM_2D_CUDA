@@ -33,7 +33,6 @@ int main()
 
     write_grid();
 
-    // Time loop
     timestep start_time = std::chrono::high_resolution_clock::now();
     for (int iter = 0; iter < MAX_ITER; iter++)
     {
@@ -50,6 +49,11 @@ int main()
 
             printf("\n---------------------- (%d/%d) %.2f%% ----------------------\n", iter, MAX_ITER, toFloat(iter) / toFloat(MAX_ITER) * 100.0f);
         }
+    }
+    copyMomentsDeviceToHost(h_fMom, d_fMom);
+    if (POST_PROCESS)
+    {
+        post_process(h_fMom);
     }
 
     calculate_mlups(sim_start_time, end_time, MAX_ITER, mlups);

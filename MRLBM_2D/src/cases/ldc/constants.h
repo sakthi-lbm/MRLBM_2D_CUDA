@@ -3,11 +3,13 @@
 
 #include "../../var.h"
 
+#define LDC
+
 constexpr int N = 128;
 constexpr int NX = N;
 constexpr int NY = N;
 
-constexpr dfloat RE = 5000;
+constexpr dfloat RE = 1000;
 constexpr dfloat U0 = 0.1;
 constexpr dfloat RHO_0 = 1.0;
 constexpr dfloat delta_t = 1.0;
