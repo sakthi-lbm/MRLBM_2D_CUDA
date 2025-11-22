@@ -41,8 +41,9 @@ __host__ __device__ inline constexpr float toFloat(const T value)
 
 // select a Case:
 //1. ldc
+//2. tg_vortex
 
-#define BC_PROBLEM ldc
+#define BC_PROBLEM tg_vortex
 #define REG_ORDER second_order
 
 #define CASE_DIRECTORY cases
