@@ -21,13 +21,13 @@ __global__ void gpu_initialize_Moments_nodeType_GhostInterface(nodeVar fMom, hal
     dfloat rho = RHO_0;
 
     // Taylor green vortex initialization
-    dfloat kw = 1.0;
+    
 
     dfloat xk = LC * toDFloat(x) / toDFloat(NX);
     dfloat yk = LC * toDFloat(y) / toDFloat(NY);
-    dfloat ux = U0 * sin(kw * xk) * cos(kw * yk);
-    dfloat uy = -U0 * cos(kw * xk) * sin(kw * yk);
-    
+    dfloat ux = U0 * sin(K * xk) * cos(K * yk);
+    dfloat uy = -U0 * cos(K * xk) * sin(K * yk);
+
     dfloat mxx, myy, mxy;
 
     unsigned int idx = IDX_BLOCK(threadIdx.x, threadIdx.y, blockIdx.x, blockIdx.y);

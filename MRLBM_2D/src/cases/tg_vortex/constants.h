@@ -10,6 +10,7 @@ constexpr int NX = N;
 constexpr int NY = N;
 
 constexpr dfloat LC = toDFloat(2.0) * PI;
+constexpr dfloat K = 1.0; // wave number
 
 constexpr dfloat RE = 100;
 constexpr dfloat U0 = 0.1;
